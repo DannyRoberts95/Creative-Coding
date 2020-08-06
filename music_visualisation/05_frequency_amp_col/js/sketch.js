@@ -11,13 +11,13 @@ let innerRadius;
 let maxInnerRadius = 300;
 
 let lineHeight;
-let maxLineHeight = 3000;
+let maxLineHeight = 2000;
 
 function preload() {
   soundFormats("mp3", "ogg");
   // song = loadSound("../data/song");
-  // song = loadSound("../data/tool-lateralus-audio");
-  song = loadSound("../data/FourTet");
+  song = loadSound("../dapta/tool-lateralus-audio");
+  // song = loadSound("../data/FourTet");
 }
 
 function setup() {
@@ -32,7 +32,7 @@ function setup() {
   amplitude = new p5.Amplitude();
   song.amp(0.2);
   innerRadius = 100;
-  maxLineHeight = 750;
+  maxLineHeight = 3550;
 }
 
 function draw() {
@@ -59,8 +59,8 @@ function draw() {
 
     let sw = map(i, 0, bins, 15, 1);
     let a = map(i, 0, bins, 20, 99);
-    let c1 = color(195, 75, 66);
-    let c2 = color(85, 100, 99);
+    let c1 = color(map(mouseX,0,width,0,360), 75, 66);
+    let c2 = color(map(mouseY,0,height,0,360), 100, 99);
     let col = lerpColor(c1, c2, map(i, 0, bins, 0, 1));
 
     rotate(aor);
