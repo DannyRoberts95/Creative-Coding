@@ -1,3 +1,5 @@
+const SVG = false;
+
 let song;
 let playing = false;
 let songLength;
@@ -8,23 +10,29 @@ let timerInterval;
 let timer = 0;
 let strokeW = 0.75;
 let innerRadius = 100;
-let maxLineHeight = 200;
-let ampScaleFactor = 0.5;
-let sampleRateMilliseconds = 1000
-let alpha = 15;
+let maxLineHeight = 270;
+let ampScaleFactor = 1.5;
+let sampleRateMilliseconds = 500;
+let alpha = 5;
 
 let backgroundCol;
 let strokeCol;
+let strokeCol2;
+
+// let songName = "FourTet";
+// let songName = "Mount Kimbie - Carbonated";
+// let songName = "Mount Kimbie - Before I Move Off (Official Video)";
+let songName = "Daft Punk - Technologic";
 
 function preload() {
   soundFormats("mp3", "ogg");
-  // song = loadSound("../data/FourTet");
-  song = loadSound("../data/song-for-the-dead");
-  // song = loadSound("data/tool-lateralus-audio");
+  song = loadSound("../data/"+songName);
 }
 
 function setup() {
-  createCanvas(windowHeight, windowHeight,SVG);
+  SVG
+    ? createCanvas(windowHeight, windowHeight, SVG)
+    : createCanvas(windowHeight, windowHeight);
   angleMode(DEGREES);
   strokeCap(ROUND);
   colorMode(HSB, 360, 100, 100, 100);
@@ -33,19 +41,21 @@ function setup() {
   console.log(`Song Length: ${songLength}`);
   amplitude = new p5.Amplitude();
   fft = new p5.FFT();
-  
-  backgroundCol = color(100);
-  strokeCol= color(0,100,0);
+  song.amp(ampScaleFactor);
+
+  backgroundCol = color(0, 100, 0);
+  strokeCol2 = color(125, 50, 100, alpha);
+  strokeCol = color(0,100,66, alpha);
+  // strokeCol2 = color(100, alpha);
 
   background(backgroundCol);
 }
 
 function draw() {
   let level = amplitude.getLevel();
-  noStroke();
-  fill(255, 0, 255);
-  
-  let h = map(level, 0, ampScaleFactor, 0, maxLineHeight);
+  let lerpAmm = map(level, 0, 0.5, 0, 1);
+  let h = map(lerpAmm, 0, 1, 0, maxLineHeight);
+  let interCol = lerpColor(strokeCol, strokeCol2, lerpAmm);
 
   push();
   translate(width / 2, height / 2);
@@ -55,7 +65,7 @@ function draw() {
   strokeWeight(strokeW);
   push();
   translate(0, -innerRadius);
-  stroke(strokeCol, alpha);
+  stroke(interCol);
   line(0, 0, 0, -h);
   pop();
 
@@ -65,8 +75,8 @@ function draw() {
 }
 
 function keyPressed() {
-  let saveStr = `${new Date()}`;
-  if (key == "s" || key == "S") save();
+  let saveStr = `${songName}`;
+  if (key == "s" || key == "S") SVG ? save(saveStr) : saveCanvas(saveStr);
 
   if (key == "p" || key == "P") {
     if (playing) {
