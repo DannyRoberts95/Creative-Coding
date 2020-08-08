@@ -11,12 +11,14 @@ let innerRadius;
 let maxInnerRadius = 300;
 
 let lineHeight;
-let maxLineHeight = 2000;
+let maxLineHeight = 500;
+
+let songName = "Mount Kimbie - Before I Move Off (Official Video)"
 
 function preload() {
   soundFormats("mp3", "ogg");
   // song = loadSound("../data/song");
-  song = loadSound("../dapta/tool-lateralus-audio");
+  song = loadSound("../data/"+songName);
   // song = loadSound("../data/FourTet");
 }
 
