@@ -1,12 +1,16 @@
 let mic;
-let innerRadius = 100;
-let maxInnerRadius = 500;
-let lineHeight;
 let maxLineHeight = 5000;
-function preload() {
-  mic = new p5.AudioIn();
-}
+let innerRadius = maxLineHeight / 50;
+let maxInnerRadius = maxLineHeight / 10;
+let lineHeight;
 
+//waveform Vars
+let radius = innerRadius;
+let waveformAmp = 250;
+
+// ---------------------------------------------------------------------------
+// SETUP
+// ---------------------------------------------------------------------------
 function setup() {
   createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
@@ -19,14 +23,51 @@ function setup() {
   fft.setInput(mic);
 }
 
+// ---------------------------------------------------------------------------
+// DRAW
+// ---------------------------------------------------------------------------
 function draw() {
   background(0, 15);
   background(0);
   fill(255);
   level = mic.getLevel();
+  let waveform = fft.waveform();
 
-  // innerRadius = ;
-  lineHeight = map(level, 0, 0.25, maxLineHeight * 0.1, maxLineHeight);
+  //waveform
+  stroke(100, 33);
+  strokeWeight(2);
+  noFill();
+  push();
+  translate(width / 2, height / 2);
+
+  fill(100,66);
+  ellipse(0,0,innerRadius*2);
+
+  // rotate(frameCount / 20);
+  beginShape(LINES);
+  for (let i = 0; i < waveform.length; i++) {
+    const aor = map(i, 0, waveform.length, 0, 360);
+    rotate(aor);
+    push();
+    translate(0, -radius);
+    let r = map(waveform[i], -1, 1, -waveformAmp, waveformAmp);
+
+    // cool effect
+    let x = sin(aor) * (r * radius);
+    let y = cos(aor) * (r * radius);
+
+    //Basic radial wave form
+    // let x = sin(aor)*(r+radius);
+    // let y = cos(aor)*(r+radius);
+
+    vertex(x, y);
+    pop();
+  }
+  endShape();
+  pop();
+
+  //Frequency Analysis Visualisation
+  lineHeight = map(level, 0, 1, maxLineHeight * 0.1, maxLineHeight);
   let bins = 8 * 64;
   let spectrum = fft.analyze(bins);
   noStroke();
@@ -36,16 +77,18 @@ function draw() {
   translate(width / 2, height / 2);
   rotate(frameCount / 5);
 
-  let c1 = color((frameCount/2) % 360, 75, 66);
-  let c2 = color(((frameCount/2) % 360) - 180, 0, 360, 100, 99);
-
   for (let i = 0; i < bins; i++) {
     //the lower i, the deeper the frequency
     const aor = map(i, 0, bins, 0, 1440);
     let h = map(spectrum[i], 0, 255, 0, lineHeight);
-    let sw = map(spectrum[i], 0, 255, 10, 3);
-    let a = map(i, 0, bins, 20, 99);
-    let col = lerpColor(color(c1,a), color(c2,a), map(i, 0, bins, 0, 1));
+    let sw = map(spectrum[i], 0, 255, 10, 2);
+    let a = map(spectrum[i], 0, 255, 100, 33);
+
+    let h1 = (frameCount / 2) % 360;
+    let h2 = h1 - 180
+    let c1 = color(h1, 75, 66, a);
+    let c2 = color(h2, 0, 360, 100, a);
+    let col = lerpColor(c1, c2, map(spectrum[i], 0, 255, 0, 1));
 
     rotate(aor);
     push();
