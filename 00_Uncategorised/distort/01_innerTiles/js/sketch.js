@@ -4,20 +4,20 @@ document.title = "01_innerTiles";
 
 let tileC1, tileC2, backgroundCol;
 
-let tileNumX = 24;
-let tileNumY = 12;
-let tileWidth = 48;
+let tileNumX = 23;
+let tileNumY = 7;
+let tileWidth = 52;
 let spacing = 8
 let gutterX = 0;
 let gutterY = 0;
 
-let innerTileNum = 4;
+let innerTileNum = 8;
 let innerTileMinScale = 0.1
-let sw = 2;
+let sw = 1;
 let distortionFactor = 0.05;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowWidth/3);
   colorMode(HSB, 360, 100, 100, 100);
   angleMode(DEGREES);
 
@@ -27,10 +27,16 @@ function setup() {
   strokeWeight(sw);
   stroke(100);
 
-  backgroundCol = color(200, 100, 35);
-  tileC1 = color(75,70,100,100,66);
-  tileC2 = color(25,90,100,100,66);
+  // //awesome color combo
+  // backgroundCol = color(240, 66, 35);
+  // tileC1 = color(75,30,100,100,66);
+  // tileC2 = color(275,90,100,100,66);
 
+  //awesome color combo
+  backgroundCol = color(190, 66, 35);
+  tileC1 = color(25,30,100,100,66);
+  tileC2 = color(325,90,100,100,66);
+  
   gutterX = (width - (spacing + tileWidth) * tileNumX) / 2 + tileWidth / 2;
   gutterY = (height - (spacing + tileWidth) * tileNumY) / 2 + tileWidth / 2;
 }
