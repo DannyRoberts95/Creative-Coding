@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class=" has-background-black-bis">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Animated Type</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css"
+    />
+  </head>
+
+  <body>
+    <div class="section">
+      <div class="container">
+        <div class="columns is-multiline level">
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="input-holder"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered ">
+              <div class="control"><div id="textInputButton-holder"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="canvas-holder" class=" column is-12 "></div>
+
+    <div class="section">
+      <div class="container">
+        <div class="columns is-multiline level">
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="pixelSkip-holder">
+                  <p
+                    class=" subtitle is-7 has-text-light has-text-weight-light"
+                  >
+                    Resolution
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="fontSize-holder">
+                  <p
+                    class=" subtitle is-7 has-text-light has-text-weight-light"
+                  >
+                    Type Size
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="strokeWeight-holder">
+                  <p
+                    class=" subtitle is-7 has-text-light has-text-weight-light"
+                  >
+                    Stroke Weight
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="connectionDistance-holder">
+                  <p
+                    class=" subtitle is-7 has-text-light has-text-weight-light"
+                  >
+                    Link Threshold
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="randomSlider-holder">
+                  <p
+                    class=" subtitle is-7 has-text-light has-text-weight-light"
+                  >
+                    Distortion
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="degenerationSlider-holder">
+                  <p
+                    class=" subtitle is-7 has-text-light has-text-weight-light"
+                  >
+                    Decomposition
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control"><div id="textInputButton-holder"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="../../libraries/p5/p5.min.js"></script>
+  <script src="../../libraries/p5/p5.dom.js"></script>
+  <!-- Generative Design Dependencies here -->
+  <!-- GG Bundled -->
+  <script src="../../libraries/generative-design-library/generative-design-library.js"></script>
+  <!-- Opentype -->
+  <script src="../../libraries/opentype.js/opentype.js"></script>
+  <!-- Rita -->
+  <script src="../../libraries/rita/rita-tiny.js"></script>
+  <!-- Chroma -->
+  <script src="../../libraries/chroma-js/chroma.js"></script>
+  <!-- Jquery -->
+  <script src="../../libraries/jquery/jquery.js"></script>
+
+  <script src="sketch.js" type="text/javascript"></script>
+  <script src="Particle.js" type="text/javascript"></script>
+  <script src="windChime.js" type="text/javascript"></script>
+</html>

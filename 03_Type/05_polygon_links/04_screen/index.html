@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class=" has-background-black-bis">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Exercise</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css"
+    />
+  </head>
+
+  <body>
+    <div id="canvas-holder" class=" column is-12 "></div>
+
+    <div class="section">
+      <div class="container">
+        <div class="columns level">
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="input-holder">
+                  <p class=" subtitle is-7 has-text-light has-text-weight-light">
+                    INPUT TEXT
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div id="pixelSkip-holder">
+              <p class=" subtitle is-7 has-text-light has-text-weight-light">
+                RESOLUTION
+              </p>
+            </div>
+          </div>
+
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="fontSize-holder">
+                  <p class=" subtitle is-7 has-text-light has-text-weight-light">
+                    FONT SIZE
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control is-expanded">
+                <div id="randomSlider-holder">
+                  <p class=" subtitle is-7 has-text-light has-text-weight-light">
+                    RANDOMNESS
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class=" column is-2 level-right">
+            <div class="field has-addons-centered">
+              <div class="control"><div id="textInputButton-holder"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="../../libraries/p5/p5.min.js"></script>
+  <script src="../../libraries/p5/p5.dom.js"></script>
+  <!-- Generative Design Dependencies here -->
+  <!-- GG Bundled -->
+  <script src="../../libraries/generative-design-library/generative-design-library.js"></script>
+  <!-- Opentype -->
+  <script src="../../libraries/opentype.js/opentype.js"></script>
+  <!-- Rita -->
+  <script src="../../libraries/rita/rita-tiny.js"></script>
+  <!-- Chroma -->
+  <script src="../../libraries/chroma-js/chroma.js"></script>
+  <!-- Jquery -->
+  <script src="../../libraries/jquery/jquery.js"></script>
+
+  <script src="sketch.js" type="text/javascript"></script>
+  <script src="Particle.js" type="text/javascript"></script>
+  <script src="windChime.js" type="text/javascript"></script>
+</html>
