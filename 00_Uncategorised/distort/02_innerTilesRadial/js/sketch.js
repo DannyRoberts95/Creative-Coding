@@ -1,36 +1,49 @@
 "use strict";
 
-let tileNumX = 32;
-let tileNumY = 16;
-let tileWidth = 20;
-let gutter = 100;
-let spacing = 3;
+document.title = "01_innerTiles";
 
-let sw = 1;
-let distortionFactor = 0.25;
+let tileNumX = 20;
+let tileNumY = 12;
+let tileWidth = 40;
+let spacing = 0;
+
+let gutterX = 0;
+let gutterY = 0;
+
+let sw = 2;
+let innserSW = 1;
+let distortionFactor = 0.2;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   angleMode(DEGREES);
-}
 
-function draw() {
-  background(90);
-  randomSeed(1);
   noFill();
+  fill(0, 10);
   strokeCap(ROUND);
   strokeJoin(ROUND);
   strokeWeight(sw);
+  stroke(100);
+
+  gutterX = (width - (spacing + tileWidth) * tileNumX) / 2 + tileWidth / 2;
+  gutterY = (height - (spacing + tileWidth) * tileNumY) / 2 + tileWidth / 2;
+}
+
+function draw() {
+  background(0);
+  randomSeed(1);
+
+  distortionFactor = map(mouseX, 0, width, 0, 5);
 
   push();
-  translate(gutter, gutter);
+  translate(gutterX, gutterY);
 
   for (let i = 0; i < tileNumX; i++) {
     for (let j = 0; j < tileNumY; j++) {
-      const x = i * tileWidth + spacing*i;
-      const y = j * tileWidth + spacing*j;
-      tile(x, y, tileWidth,i*distortionFactor);
+      const x = i * tileWidth + spacing * i;
+      const y = j * tileWidth + spacing * j;
+      tile(x, y, tileWidth, i * distortionFactor);
     }
   }
   pop();
@@ -78,25 +91,34 @@ function tile(x, y, w, distortion) {
     x + random(-distortion, distortion),
     y + random(-distortion, distortion)
   );
-  rotate(random(-distortion, distortion));
+  rotate(distortion);
+  // stroke(100, 100 - distortion);
+  // strokeWeight(sw - distortion/100);
+
+  stroke(100,100-distortion*2)
+
+  //OUTER PERIMETER
   beginShape();
-  //Outer perimater
+  strokeWeight(sw);
   points.forEach((item) => {
     vertex(item.x, item.y);
   });
   endShape(CLOSE);
-  //INNER CROSS
-  const crossPointIndexs = [1, 3, 5, 7];
+
+  //RADIAL LINES
   beginShape();
-  crossPointIndexs.forEach((index) => {
+  strokeWeight(innserSW);
+  points.forEach((item) => {
     vertex(0, 0);
-    vertex(points[index].x, points[index].y);
+    vertex(item.x, item.y);
   });
   endShape();
+
   pop();
 }
 
 function keyPressed() {
-  let saveStr = `${new Date()}`;
+  let saveStr = `${document.title}-${new Date().getTime()}`;
   if (key == "s" || key == "S") saveCanvas(saveStr, "png");
+  if (key == "q" || key == "Q") noLoop();
 }
