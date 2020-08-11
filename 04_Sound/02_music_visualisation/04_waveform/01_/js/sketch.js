@@ -10,11 +10,13 @@ let radius;
 let maxLineHeight;
 let ampScaleFactor = 0.5;
 
+let songName="song-for-the-dead"
+
 function preload() {
   soundFormats("mp3", "ogg");
   // song = loadSound("../data/song");
   // song = loadSound("../data/tool-lateralus-audio");
-  song = loadSound("../data/song-for-the-dead");
+  song = loadSound("../../data/"+songName);
 }
 
 function setup() {
@@ -28,7 +30,7 @@ function setup() {
   fft = new p5.FFT();
   song.amp(0.2);
   radius=200
-  amp = 150;
+  amp = radius;
 }
 
 function draw() {
@@ -51,11 +53,11 @@ function draw() {
     translate(0, -radius);
     let r = map(waveform[i], -1, 1, -amp, amp);
     //cool effect
-    // let x = sin(aor)*(r*radius);
-    // let y = cos(aor)*(r*radius);
+    let x = sin(aor)*(r*radius);
+    let y = cos(aor)*(r*radius);
     
-    let x = sin(aor)*(r+radius);
-    let y = cos(aor)*(r+radius);
+    // let x = sin(aor)*(r+radius);
+    // let y = cos(aor)*(r+radius);
     vertex(x, y);
     pop();
   }
@@ -66,7 +68,7 @@ function draw() {
 }
 
 function keyPressed() {
-  let saveStr = `${new Date()}`;
+  let saveStr = songName;
   if (key == "s" || key == "S") saveCanvas(saveStr, "png");
 
   if (key == "p" || key == "P") {
