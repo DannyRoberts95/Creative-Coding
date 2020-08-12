@@ -53,8 +53,8 @@ function draw() {
     let r = map(waveform[i], -1, 1, -waveformAmp, waveformAmp);
 
     // cool effect
-    let x = sin(aor) * (r * radius);
-    let y = cos(aor) * (r * radius);
+    let x = sin(aor) * (r * radius/2);
+    let y = cos(aor) * (r * radius/2);
 
     //Basic radial wave form
     // let x = sin(aor)*(r+radius);
