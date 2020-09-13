@@ -1,8 +1,8 @@
 "use strict";
 
-let tileNumX = 24;
-let tileNumY = 16;
-let tileWidth = 32;
+let tileNumX = 48;
+let tileNumY = 12;
+let tileWidth = 24;
 let spacing =10;
 let gutterX = 0;
 let gutterY = 0;
@@ -12,7 +12,7 @@ let distortionFactor = 0.0004;
 let rSeed = 1;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowWidth/3);
   colorMode(HSB, 360, 100, 100, 100);
   angleMode(DEGREES);
 

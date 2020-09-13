@@ -15,9 +15,8 @@ setup = () => {
   w = width*1.1;
   dx = (TWO_PI / period) * xspacing;
   yvalues = new Array(floor(w / xspacing));
-
   backgroundCol = color(0, 86, 98, 100);
-  waveCol = color(0, 191, 165, 45);
+  waveCol = color(38,198,218, 66);
   frameRate(30);
 };
 
@@ -27,7 +26,7 @@ windowResized = () => {
 };
 
 draw = () => {
-  background(backgroundCol);
+  background(0,105,120);
   frameRate(30);
 
   t1 += 0.0125;
@@ -45,10 +44,9 @@ function wave(offset, cy, amp, t, col) {
     yvalues[i] = Math.sin(x) * amp;
     x += dx;
   }
-
   strokeWeight(2);
-  stroke(1, 188, 173);
-  fill(col);
+  stroke(93,222,244,80);
+  fill(waveCol);
   //draw waves
   beginShape();
   for (let x = 0; x < yvalues.length; x++) {
@@ -61,12 +59,9 @@ function wave(offset, cy, amp, t, col) {
   //draw points
   for (let x = 0; x < yvalues.length; x++) {
     if (x % 10 === 0) {
+      stroke(93,222,244,95);
       strokeWeight(10);
-      stroke(1, 188, 173);
-      point(x * xspacing, cy + yvalues[x]);
-      strokeWeight(1);
-      //  stroke(0, 191, 165, 20);
-      //  line(x* xspacing,0,x* xspacing, height)
+      point(x * xspacing, cy + yvalues[x]);       
       strokeWeight(2);
     }
   }

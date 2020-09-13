@@ -38,7 +38,7 @@ function setup() {
 }
 
 function draw() {
-  fill(0, 10);
+  fill(0);
   rect(0, 0, width, height);
 
   displaySongData();

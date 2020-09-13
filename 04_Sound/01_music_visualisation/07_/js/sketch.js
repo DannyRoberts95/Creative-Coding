@@ -1,106 +1,121 @@
 let mic;
-let walkers = [];
-let radius = 100;
+let fft;
+
+const margin = { top: 25, right: 25, bottom: 25, left: 25 };
+const spacing = 25;
+
+// amp vars
+let amp_x = margin.top;
+let amp_y = margin.left;
+let amp_w = 300;
+let amp_h = 300;
+let amp_maxR = amp_w;
+let amp_peak = 0;
+
+//waveform vars
+let wave_x = amp_w + spacing * 2;
+let wave_y = margin.left;
+let wave_w = 525;
+let wave_h = 300;
+let wave_maxLineHeight = 200;
+let wave_bins = 64;
+let wave_peaks = [];
 
 // ---------------------------------------------------------------------------
 // SETUP
 // ---------------------------------------------------------------------------
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(900, 900);
   angleMode(DEGREES);
-  strokeCap(ROUND);
+  strokeCap(SQUARE);
+  rectMode(CENTER);
   colorMode(HSB, 360, 100, 100, 100);
 
-  for (let i = 0; i < 10; i++) {
-    // const x = width / 2;
-    // const y = 0;
-    // const sw = 5;
-    // const stepSize = 25;
-    // const stepNum = 50;
-    // const col = color(100);
-    // let walker = new Walker(x, y, sw, stepNum, stepSize, col);
-    // walkers.push(walker);
-  }
-
-  // //create mic object and pass it to the FFT object for analysis
+  //create mic object and pass it to the FFT object for analysis
+  
   mic = new p5.AudioIn();
+  mic.getSources(gotSources);
+
   fft = new p5.FFT();
   fft.setInput(mic);
+
+  mic.start();
+  for (let i = 0; i < wave_bins; i++) {
+    wave_peaks[i] = 0;
+  }
+  background(0);
 }
 
 // ---------------------------------------------------------------------------
 // DRAW
 // ---------------------------------------------------------------------------
 function draw() {
-  background(0, 15);
-
-  // for (let i = walkers.length - 1; i >= 0; i--) {
-  //   const w = walkers[i];
-  //   w.stepNum === 0 ? walkers.splice(i, 1) : w.run();
-  // }
-
-  fill(255);
   level = mic.getLevel();
+  background(0)
 
-  let bins = 16;
-  let waveform = fft.waveform(bins);
-radius = mouseX
-
-  //waveform
+  // amp code
+  // ---------------------------------------------------------------------------
   push();
-  translate(width / 2, height / 2);
-  for (let i = 0; i < bins; i++) {
-    const aor = map(i, 0, bins, 0, 360);
-    rotate(aor);
-    push();
-    const x = sin(aor) ;
-    const y = cos(aor) ;
-    const sw = 5;
-    const stepSize = 10;
-    const stepNum = 10;
-    const col = color(100);
-    let walker = new Walker(x, y, sw, stepNum, stepSize, aor, col);
-    walkers.push(walker);
-    pop();
-  }
-  for (let i = walkers.length - 1; i >= 0; i--) {
-    const w = walkers[i];
+  translate(amp_x + amp_w / 2, amp_y + amp_h / 2);
+  fill(0, 10);
+  stroke(100);
+  rect(0, 0, amp_w, amp_h);
+  fill(255);
+  stroke(100);
+  const r = map(level, 0, 1, 0, amp_maxR);
+  push();
+  translate(0, 0);
+  rect(0, 0, r * 2, r * 2);
+  line(amp_w / 2, amp_w / 2, -amp_w / 2, -amp_w / 2);
+  line(amp_w / 2, -amp_w / 2, -amp_w / 2, amp_w / 2);
+  pop();
+  pop();
+  // ---------------------------------------------------------------------------
 
-    w.stepNum === 0 ? walkers.splice(i, 1) : w.run();
+  //Frequency Analysis Visualisation
+  // ---------------------------------------------------------------------------
+  push();
+  translate(wave_x, wave_y);
+  fill(0, 20);
+  stroke(100);
+  rect(wave_w / 2, wave_h / 2, wave_w, wave_h);
+
+  let spectrum = fft.analyze(wave_bins);
+  let sw = wave_w / wave_bins;
+
+  for (let i = 0; i < wave_bins; i++) {
+    let x = map(i, 0, wave_bins, 0, wave_w);
+    let h = map(spectrum[i], 0, 200, 0, wave_maxLineHeight);
+    push();
+    stroke(100);
+    strokeWeight(sw);
+
+    translate(x + sw / 2, wave_h);
+    line(0, 0, 0, -h);
+    h > wave_peaks[i] ? (wave_peaks[i] = h) : wave_peaks[i];
+    noStroke();
+    fill(100);
+    rect(0, -wave_peaks[i] - sw, sw, sw);
+    pop();
+    wave_peaks[i] -= 0.66;
   }
   pop();
+  // ---------------------------------------------------------------------------
 
-  // constructor(x, y, sw, stepNum, stepSize, col) {
-
-  // //Frequency Analysis Visualisation
-  // lineHeight = map(level, 0, 1, maxLineHeight * 0.1, maxLineHeight);
-  // let bins = 8 * 64;
-  // let spectrum = fft.analyze(bins);
-  // noStroke();
-  // fill(0);
-  // push();
-  // translate(width / 2, height / 2);
-  // rotate(frameCount / 5);
-  // for (let i = 0; i < bins; i++) {
-  //   //the lower i, the deeper the frequency
-  //   const aor = map(i, 0, bins, 0, 1440);
-  //   let h = map(spectrum[i], 0, 255, 0, lineHeight);
-  //   let sw = map(spectrum[i], 0, 255, 10, 2);
-  //   let a = map(spectrum[i], 0, 255, 100, 33);
-  //   let h1 = (frameCount / 2) % 360;
-  //   let h2 = h1 - 180
-  //   let c1 = color(h1, 75, 66, a);
-  //   let c2 = color(h2, 0, 360, 100, a);
-  //   let col = lerpColor(c1, c2, map(spectrum[i], 0, 255, 0, 1));
-  //   rotate(aor);
-  //   push();
-  //   translate(0, -innerRadius);
-  //   stroke(col, a);
-  //   strokeWeight(sw);
-  //   h > 0 && line(0, h * 0.1, 0, -h);
-  //   pop();
-  // }
-  // pop();
+  push()
+  translate(0,450+spacing)
+  let waveform = fft.waveform();
+  noFill();
+  beginShape();
+  stroke(100);
+  strokeWeight(2);
+  for (let i = 0; i < wave_bins; i++) {    
+    let x = map(i, 0, wave_bins, spacing, 900-spacing);
+    let y = map(waveform[i], -1, 1, -150, 150);
+    vertex(x, y);
+  }
+  endShape();
+  pop()
 }
 
 function keyPressed() {
@@ -111,48 +126,11 @@ function keyPressed() {
     resizeCanvas(windowWidth, windowHeight);
   }
 }
-
-class Walker {
-  constructor(x, y, sw, stepNum, stepSize, aor, col) {
-    this.x = x;
-    this.y = y;
-    this.sw = sw;
-    this.maxStepNum = stepNum;
-    this.stepNum = stepNum;
-    this.stepSize = stepSize;
-    this.aor = aor;
-    this.col = col;
-  }
-
-  run() {
-    this.render();
-  }
-
-  render() {
-    push();
-    rotate(this.aor);
-    translate(0,radius);
-    // translate(this.x,this.y)
-    const r = floor(random(3));
-    const prevX = this.x;
-    const prevY = this.y;
-    switch (r) {
-      case 0:
-        this.x -= this.stepSize;
-        break;
-      case 1:
-        this.x += this.stepSize;
-        break;
-      case 2:
-        this.y += this.stepSize;
-        break;
-      default:
-        break;
-    }
-    strokeWeight(this.stepNum);
-    stroke(this.col);    
-    line(prevX, prevY, this.x, this.y);
-    pop();
-    this.stepNum--;
+function gotSources(deviceList) {
+  if (deviceList.length > 0) {
+    //set the source to the first item in the deviceList array
+    audioIn.setSource(0);
+    let currentSource = deviceList[audioIn.currentSource];
+    console.log('set source to: ' + currentSource.deviceId, 5, 20, width);
   }
 }

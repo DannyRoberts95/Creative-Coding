@@ -19,7 +19,7 @@ let ranges = [
 function preload() {
   soundFormats("mp3", "ogg");
   // song = loadSound("../data/song");
-  song = loadSound("../data/tool-lateralus-audio");
+  song = loadSound("../data/FourTet");
   // song = loadSound("../data/song-for-the-dead");
 }
 
