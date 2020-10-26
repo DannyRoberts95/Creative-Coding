@@ -22,7 +22,7 @@ class Particle {
 
   run() {
     this.seek(this.origin);
-    this.flee(createVector(mouseX, mouseY));
+    mouseIsPressed&& this.flee(createVector(mouseX, mouseY));
     this.update();
   }
 
