@@ -3,23 +3,24 @@
 let tileNumber = 50;
 let tileSize;
 let aor;
-let col;
+let col, col2;
 let seed = 1;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1200 , 628);
   angleMode(DEGREES);
-  colorMode(HSB, 360, 100, 100, 100);
   rectMode(CENTER);
   ellipseMode(CENTER);
   strokeCap(ROUND);
 
-  col = color(random(360), 100, 75, 100);
+  col2 = color(7, 191, 165, 255);
+  col = color(255);
   // noLoop();
 }
 
 function draw() {
-  background(0, 0, 95, 100);
+  background(3, 105, 122, 255);
+
   randomSeed(seed);
 
   tileSize = width / tileNumber;
@@ -35,7 +36,7 @@ function draw() {
       let r = floor(random(0, 2));
       if (r === 0) {
         rotate(90);
-        stroke(0);
+        stroke(col2);
         strokeWeight(sw1);
         line(-size / 2, 0, size / 2, 0);
       } else {
@@ -56,6 +57,6 @@ function keyPressed() {
 }
 
 function mousePressed() {
-  col = color(random(360), random(45, 100), 80, 100);
+  // col = color(random(360), random(45, 100), 80, 100);
   seed++;
 }

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class=" has-background-black-bis">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Links</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="libraries/p5/p5.min.js"></script>
+    <script src="libraries/p5/p5.dom.js"></script>
+    <!-- Generative Design Dependencies here -->
+    <!-- GG Bundled -->
+    <script src="libraries/generative-design-library/generative-design-library.js"></script>
+    <!-- Opentype -->
+    <script src="libraries/opentype.js/opentype.js"></script>
+    <!-- Rita -->
+    <script src="libraries/rita/rita-tiny.js"></script>
+    <!-- Chroma -->
+    <script src="libraries/chroma-js/chroma.js"></script>
+    <!-- Jquery -->
+    <script src="libraries/jquery/jquery.js"></script>
+  </head>
+
+  <body>
+    <div id="mydiv" class=" column is-2  has-background-black-bis box">
+      <div id="mydivheader" class=" has-background-info box">
+        <p class=" Title is-3 has-text-light has-text-weight-bold">
+          CLICK TO DRAG
+        </p>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p class=" has-text-light">Input Text</p>
+          <div class="control "><div id="input-holder"></div></div>
+        </div>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p class="has-text-light">Background Color</p>
+          <div class="control ">
+            <div id="colorPickerBackground-holder"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p class="has-text-light">Font Color</p>
+          <div class="control "><div id="colorPickerText-holder"></div></div>
+        </div>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p id="resolution-text" class="has-text-light">Resolution</p>
+          <div class="control "><div id="resolution-holder"></div></div>
+        </div>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p id="fontSize-text" class="has-text-light">Font Size</p>
+          <div class="control "><div id="fontSize-holder"></div></div>
+        </div>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p id="strokeWeight-text" class="has-text-light">Stroke Weight</p>
+          <div class="control "><div id="strokeWeight-holder"></div></div>
+        </div>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p id="connectionDistance-text" class="has-text-light">
+            Link Threshold
+          </p>
+          <div class="control "><div id="connectionDistance-holder"></div></div>
+        </div>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p id="distortionSlider-text" class="has-text-light">Distortion</p>
+          <div class="control "><div id="distortionSlider-holder"></div></div>
+        </div>
+      </div>
+
+      <div class="dataInputHolder">
+        <div class="field">
+          <p id="degenerationSlider-text" class="has-text-light">
+            Degeneration
+          </p>
+          <div class="control "><div id="degenerationSlider-holder"></div></div>
+        </div>
+      </div>
+
+      <div class="field has-addons-centered">
+        <div id="textInputButton-holder"></div>
+      </div>
+    </div>
+
+    <div id="canvas-holder" class=" column is-12 "></div>
+  </body>
+
+  <script src="sketch.js" type="text/javascript"></script>
+  <script src="Particle.js" type="text/javascript"></script>
+  <script src="dragScript.js" type="text/javascript"></script>
+</html>
