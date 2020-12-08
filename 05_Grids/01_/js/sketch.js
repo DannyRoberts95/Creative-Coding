@@ -1,15 +1,15 @@
 "use strict";
 
-let tileNumX = 4;
-let tileNumY = 4;
-let tileWidth = 150;
-let spacing = 20;
+let tileNumX = 7;
+let tileNumY = 7;
+let tileWidth = 100;
 let gutterX = 0;
 let gutterY = 0;
 
-let sw = 1;
+let sw = 2;
 let distortionFactor = 0.0004;
 let rSeed = 1;
+let spacing = 15;
 
 function setup() {
   // A4/4
@@ -20,13 +20,15 @@ function setup() {
 
   noFill();
   fill(0, 10);
-  strokeCap(ROUND);
+  strokeCap(PROJECT);
   strokeJoin(ROUND);
   strokeWeight(sw);
-  stroke(100);
+  stroke(100,100);
 
-  gutterX = (width - (spacing + tileWidth) * tileNumX) / 2 + tileWidth / 2;
-  gutterY = (height - (spacing + tileWidth) * tileNumY) / 2 + tileWidth / 2;
+  gutterX =
+    (width - (spacing + tileWidth) * tileNumX) / 2 + (tileWidth + spacing) / 2;
+  gutterY =
+    (height - (spacing + tileWidth) * tileNumY) / 2 + (tileWidth + spacing) / 2;
 }
 
 function draw() {
@@ -36,7 +38,10 @@ function draw() {
   noFill();
   strokeWeight(sw);
 
-  ellipse(width / 2, height / 2, 10, 10);
+  if (mouseIsPressed) {
+    stroke(100, 33);
+    ellipse(width / 2, height / 2, 10, 10);
+  } else noLoop();
 
   push();
   translate(gutterX, gutterY);
@@ -46,11 +51,16 @@ function draw() {
       const x = i * tileWidth + spacing * i;
       const y = j * tileWidth + spacing * j;
 
-      // (i + j) % 2 === 0
-      //   ? tileLined(x, y, tileWidth, 90,5)
-      //   : tile(x, y, tileWidth, 0);
-
-      mosaic(x, y, tileWidth, 0, 4);
+      let r = random();
+      if (r > 0.8) {
+        tile(x, y, tileWidth, 0);
+      } else if (r > 0.3) {
+        mosaic(x, y, tileWidth, random() > 0.5 ? 90 : 0, 4);
+      } else if (r > 0.1) {
+        tileLined(x, y, tileWidth, random() > 0.5 ? 90 : 0, 5);
+      } else if (r > 0.5) {
+        
+      }
     }
   }
   pop();
@@ -70,35 +80,42 @@ function tileLined(x, y, w, aor = 0, res) {
   push();
   translate(x, y);
   rotate(aor);
-  pop();
 
   for (let i = 0; i <= res; i++) {
     push();
-    let yOff = map(i, 0, res, -w / 2, w / 2);
-    translate(x, y + yOff);
-    line(-w / 2, 0, w / 2, 0);
+    let yOff = map(i, 0, res, -w / 2+sw/2, w / 2+sw/2);
+    translate(0, 0 + yOff);
+    line((-w / 2), 0, (w / 2), 0);
     pop();
   }
+
+  pop();
 }
 
 function mosaic(x, y, w, aor = 0, res) {
   push();
-  translate(x - w/2 , y - w/2);
+  translate(x, y);
   rotate(aor);
-  rect(0, 0, w, w);
+  translate(-w / 2, -w / 2);
+  rectMode(CENTER);
+  // rect(0, 0, w, w);
 
   const subW = w / res;
-
   const cols = w / subW;
   const rows = w / subW;
 
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
-      const x = i * subW;
-      const y = j * subW;
+      const x = i * subW + subW / 2;
+      const y = j * subW + subW / 2;
       push();
       translate(x, y);
-      rect(0, 0, subW);
+      
+  
+
+      random() > 0.5
+        ? tile(0, 0, subW)
+        : tileLined(0, 0, subW - sw, random() > 0.5 ? 90 : 0, 5);
       pop();
     }
   }
@@ -107,6 +124,7 @@ function mosaic(x, y, w, aor = 0, res) {
 
 function mousePressed() {
   rSeed++;
+  loop();
 }
 
 function keyPressed() {
