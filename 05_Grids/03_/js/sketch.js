@@ -1,29 +1,31 @@
 "use strict";
 
-let tileNumX = 7;
-let tileNumY = 7;
-let tileWidth = 100;
+let tileNumX = 12;
+let tileNumY = 12;
+let tileWidth = 200;
 let gutterX = 0;
 let gutterY = 0;
-
-let sw = 2;
-let distortionFactor = 0.0004;
+let sw = 8;
 let rSeed = 1;
-let spacing = 15;
+let spacing = 28;
 
 function setup() {
-  // A4/4
-  // createCanvas(877,620);
-  createCanvas(windowWidth, windowHeight);
+  // A4 - 3508 x 2480
+  // A3 - 4961 x 3605
+  // A2 - 7016 x 4961
+  createCanvas(3508, 3508);
+
+  //SQUARE
+  // createCanvas(windowHeight, windowHeight);
+  //FULLSCREEN
+  // createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   angleMode(DEGREES);
 
   noFill();
   fill(0, 10);
   strokeCap(PROJECT);
-  strokeJoin(ROUND);
   strokeWeight(sw);
-  stroke(100,100);
 
   gutterX =
     (width - (spacing + tileWidth) * tileNumX) / 2 + (tileWidth + spacing) / 2;
@@ -32,14 +34,13 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(100);
   randomSeed(rSeed);
-  stroke(100, 100);
   noFill();
-  strokeWeight(sw);
+  stroke(0, 100);
 
   if (mouseIsPressed) {
-    stroke(100, 33);
+    stroke(0, 33);
     ellipse(width / 2, height / 2, 10, 10);
   } else noLoop();
 
@@ -50,17 +51,12 @@ function draw() {
     for (let j = 0; j < tileNumY; j++) {
       const x = i * tileWidth + spacing * i;
       const y = j * tileWidth + spacing * j;
-
       let r = random();
-      if (r > 0.8) {
-        tile(x, y, tileWidth, 0);
-      } else if (r > 0.3) {
-        mosaic(x, y, tileWidth, random() > 0.5 ? 90 : 0, 4);
-      } else if (r > 0.1) {
-        tileLined(x, y, tileWidth, random() > 0.5 ? 90 : 0, 5);
-      } else if (r > 0.5) {
-        
-      }
+      let thresh = 0.5;
+
+      r > thresh
+        ? tileLined(x, y, tileWidth, 90, 8)
+        : tileLined(x, y, tileWidth, 0, 16);
     }
   }
   pop();
@@ -80,15 +76,13 @@ function tileLined(x, y, w, aor = 0, res) {
   push();
   translate(x, y);
   rotate(aor);
-
-  for (let i = 0; i <= res; i++) {
+  for (let i = 0; i < res; i++) {
     push();
-    let yOff = map(i, 0, res, -w / 2+sw/2, w / 2+sw/2);
+    let yOff = map(i, 0, res - 1, -w / 2, w / 2);
     translate(0, 0 + yOff);
-    line((-w / 2), 0, (w / 2), 0);
+    line(-w / 2, 0, w / 2, 0);
     pop();
   }
-
   pop();
 }
 
@@ -98,11 +92,9 @@ function mosaic(x, y, w, aor = 0, res) {
   rotate(aor);
   translate(-w / 2, -w / 2);
   rectMode(CENTER);
-  // rect(0, 0, w, w);
-
   const subW = w / res;
-  const cols = w / subW;
-  const rows = w / subW;
+  const cols = w / (subW + sw);
+  const rows = w / (subW + sw);
 
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
@@ -110,12 +102,9 @@ function mosaic(x, y, w, aor = 0, res) {
       const y = j * subW + subW / 2;
       push();
       translate(x, y);
-      
-  
-
       random() > 0.5
         ? tile(0, 0, subW)
-        : tileLined(0, 0, subW - sw, random() > 0.5 ? 90 : 0, 5);
+        : tileLined(0, 0, subW - sw, random() > 0.5 ? 90 : 0, 10);
       pop();
     }
   }
