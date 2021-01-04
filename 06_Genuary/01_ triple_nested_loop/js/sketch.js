@@ -4,13 +4,14 @@ document.title = "Triple Nested Loop";
 
 let tileNumX = 6;
 let tileNumY = 6;
-let tileWidth = 100;
+let tileWidth = 125;
 let gutterX = 0;
 let gutterY = 0;
-let sw = 2;
+let sw = 4;
 let rSeed = 1;
-let spacing = 5;
+let spacing = 3;
 
+let xOff, yOff, inc;
 let c1, c2, cBg;
 
 function setup() {
@@ -20,9 +21,9 @@ function setup() {
   // createCanvas(3508, 3508);
 
   //SQUARE
-  // createCanvas(windowHeight, windowHeight);
+  createCanvas(windowHeight, windowHeight);
   //FULLSCREEN
-  createCanvas(windowWidth, windowHeight);
+  // createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   angleMode(DEGREES);
 
@@ -31,10 +32,6 @@ function setup() {
   strokeCap(PROJECT);
   strokeWeight(sw);
 
-  c1 = color(45, 100, 100, 100);
-  c2 = color(125, 100, 100, 100);
-  cBg = color(225, 100, 33, 100);
-
   gutterX =
     (width - (spacing + tileWidth) * tileNumX) / 2 + (tileWidth + spacing) / 2;
   gutterY =
@@ -42,18 +39,14 @@ function setup() {
 }
 
 function draw() {
-  c1 = color(map(mouseX, 0, width, 0, 360), saturation(c1), brightness(c1));
-  c2 = color(map(mouseY, 0, height, 0, 360), saturation(c2), brightness(c2));
+  c1 = color(random(360), 40, 80, 100);
+  c2 = color(random(360), 70, 100, 100);
+  cBg = color(random(360), 100, 33, 100);
 
   background(cBg);
   randomSeed(rSeed);
   noFill();
   stroke(c1, 100);
-
-  // if (mouseIsPressed) {
-  //   stroke(c1);
-  //   ellipse(width / 2, height / 2, 10, 10);
-  // } else noLoop();
 
   push();
   translate(gutterX, gutterY);
@@ -65,7 +58,7 @@ function draw() {
 
       let r = random();
       if (r > 0.9) {
-        tile(x, y, tileWidth, random(1,8));
+        tile(x, y, tileWidth, 0, random(4, 12));
       } else if (r > 0.6) {
         tileLined(
           x,
@@ -77,7 +70,7 @@ function draw() {
       } else if (r > 0.4) {
         circle(x, y, tileWidth, 0, random(2, 8));
       } else if (r > 0.1) {
-        mosaic(x, y, tileWidth, 90, 6);
+        mosaic(x, y, tileWidth, 90, 4);
       } else if (r > 0) {
         mosaic(x, y, tileWidth, 90, 2);
       }
@@ -92,11 +85,12 @@ function tile(x, y, w, aor = 0, res) {
   push();
   translate(x, y);
   rotate(aor);
+  rectMode(CENTER);
   for (let i = 1; i <= res; i++) {
-    let w= (w * (i / res));
+    let width = w * (i / res);
     let interCol = lerpColor(c1, c2, map(i, 0, res - 1, 0, 1));
     stroke(interCol);
-    rect(0, 0, w, w);
+    rect(0, 0, width, width);
   }
   pop();
 }
@@ -117,14 +111,18 @@ function tileLined(x, y, w, aor = 0, res) {
   push();
   translate(x, y);
   rotate(aor);
+
+  // rectMode(CENTER);
+  // rect(0, 0, w, w);
+
   for (let i = 0; i < res; i++) {
     let interCol = lerpColor(c1, c2, map(i, 0, res - 1, 0, 1));
     stroke(interCol);
-
     push();
-    let yOff = map(i, 0, res - 1, -w / 2, w / 2);
+    let yOff = map(i, 0, res - 1, (-w / 2)+sw,( w / 2)-sw);
     translate(0, 0 + yOff);
-    line(-w / 2 - sw / 2, 0, w / 2 + sw / 2, 0);
+    const width = -(w - sw / 2) / 2 + sw;
+    line(width, 0, -width, 0);
     pop();
   }
   pop();
@@ -136,7 +134,8 @@ function mosaic(x, y, w, aor = 0, res) {
   rotate(aor);
   translate(-w / 2, -w / 2);
   rectMode(CENTER);
-  const subW = (w / res)-(sw);
+  strokeWeight(sw / 2);
+  const subW = (w + sw) / res;
   const cols = w / subW;
   const rows = w / subW;
 
@@ -150,8 +149,8 @@ function mosaic(x, y, w, aor = 0, res) {
       translate(x, y);
       // strokeWeight(sw / 2);
       random() > 0.65
-        ? tile(0, 0, subW)
-        : tileLined(0, 0, subW, random() > 0.5 ? 90 : 0, 4);
+        ? tile(0, 0, subW, 0, 4)
+        : circle(0, 0, subW, random() > 0.5 ? 90 : 0, 4);
       pop();
     }
   }
